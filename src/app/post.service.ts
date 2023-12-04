@@ -1,17 +1,15 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { Post } from "./post.model";
-import { Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
-  constructor(private http: HttpClient) {}
-  private postsUpdated = new Subject<Post[]>();
+  constructor(private http: HttpClient) { }
   listChangedEvent: EventEmitter<Post[]> = new EventEmitter();
   listOfPosts: Post[] = [
-    
-     /* new Post("TechCrunch",
+        /*
+      new Post("TechCrunch",
         "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/12/techcrunch-website-homepage-1024x542.webp",
         "TechCrunch is a blog that provides technology and startup news, from the latest developments in Silicon Valley to venture capital funding.",
         "Johnny Johnny",
@@ -33,18 +31,28 @@ export class PostService {
         2
       ),
       */
-  ];
+
+];
+
   getPost() {
     return this.listOfPosts;
   }
   deleteButton(index: number) {
+    // Delete the post from the local array
+    this.listOfPosts.splice(index, 1);
+  
+    // Now delete the post from Firebase
     this.http.delete(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`).subscribe(() => {
       console.log('Post deleted from Firebase');
-      this.listOfPosts.splice(index, 1);
     });
   }
   addPost(post: Post) {
     this.listOfPosts.push(post);
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json`, this.listOfPosts)
+      .subscribe(response => {
+        console.log(response);
+        this.listChangedEvent.emit(this.listOfPosts.slice());
+      });
   }
   updatePost(index: number, post: Post) {
     this.listOfPosts[index] = post;
@@ -54,35 +62,59 @@ export class PostService {
   }
   likePost(index: number) {
     this.listOfPosts[index].numberOfLikes++;
-    const url = `https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`;
-    this.http.put(url, this.listOfPosts[index]).subscribe(() => {
-      console.log('Post updated in Firebase');
-    }, error => {
-      console.error('Error updating post:', error);
-    });
+    
+    // Update the post in Firebase
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`, this.listOfPosts[index])
+      .subscribe(() => {
+        console.log('Post updated in Firebase');
+      });
+      //2.4
+  
   }
-  addComment(index: number, comment: string) {
-  this.listOfPosts[index].comments.push(comment);
-  const url = `https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`;
-  this.http.put(url, this.listOfPosts[index]).subscribe(() => {
-    console.log('Post updated in Firebase');
-  }, error => {
-    console.error('Error updating post:', error);
-  });
-}
   getComments(index: number) {
     return this.listOfPosts[index].comments;
   }
   setPosts(listOfPosts: Post[]) {
     this.listOfPosts = listOfPosts;
     this.listChangedEvent.emit(listOfPosts);
-    this.postsUpdated.next([...this.listOfPosts]);
   }
-
-  getPostsUpdateListener() {
-    return this.postsUpdated.asObservable();
+  addComment(index: number, comment: string) {
+    this.listOfPosts[index].comments.push(comment);
+    
+    // Update the post in Firebase
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`, this.listOfPosts[index])
+      .subscribe(() => {
+        console.log('Post updated in Firebase');
+      });
   }
-
   
+  editComment(postIndex: number, commentIndex: number, newComment: string) {
+    this.listOfPosts[postIndex].comments[commentIndex] = newComment;
   
+    // Update the post in Firebase
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${postIndex}.json`, this.listOfPosts[postIndex])
+      .subscribe(() => {
+        console.log('Comment updated in Firebase');
+      });
+  }
+  
+  deleteComment(postIndex: number, commentIndex: number) {
+    this.listOfPosts[postIndex].comments.splice(commentIndex, 1);
+  
+    // Update the post in Firebase
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${postIndex}.json`, this.listOfPosts[postIndex])
+      .subscribe(() => {
+        console.log('Comment deleted from Firebase');
+      });
+  }
+  dislikePost(index: number) {
+    
+    this.listOfPosts[index].numberOfDislikes++;
+  
+    // Update the post in Firebase
+    this.http.put(`https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app/posts/${index}.json`, this.listOfPosts[index])
+      .subscribe(() => {
+        console.log('Post updated in Firebase');
+      });
+  }
 }

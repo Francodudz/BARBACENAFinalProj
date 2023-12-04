@@ -9,8 +9,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+  commentInput: any;
+  memberName = "KING OG";
 
-  memberName = "Lan";
   constructor(private postService: PostService, private router: Router) {
   }
   @Input() index: number = 0;
@@ -21,17 +22,40 @@ export class PostComponent implements OnInit {
     console.log(this.post);
     this.comments = this.postService.getComments(this.index);
   }
-  del() {
+  delete() {
     this.postService.deleteButton(this.index);
   }
+  
   onEdit() {
     this.router.navigate(['/post-edit', this.index])
   }
   onLike() {
     this.postService.likePost(this.index)
   }
+ 
   onAddComment(comment: string) {
     this.postService.addComment(this.index, comment);
     this.comments = this.postService.getComments(this.index); // Refresh the comments
+  }
+  
+  editComment(commentIndex: number, newComment: string) {
+    this.postService.editComment(this.index, commentIndex, newComment);
+    this.comments = this.postService.getComments(this.index); // Refresh the comments
+  }
+  
+  deleteComment(commentIndex: number) {
+    this.postService.deleteComment(this.index, commentIndex);
+    this.comments = this.postService.getComments(this.index); // Refresh the comments
+  }
+  startEditingComment(commentIndex: number) {
+    this.editingCommentIndex = commentIndex;
+  }
+  editingCommentIndex: number | null = null;
+  saveEditedComment(commentIndex: number, newComment: string) {
+    this.editComment(commentIndex, newComment);
+    this.editingCommentIndex = null;
+  }
+  onDislike() {
+    this.postService.dislikePost(this.index);
   }
 }

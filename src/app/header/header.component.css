@@ -1,39 +1,6 @@
+.nav-link {
+  color: #f8f9fa; /* Change this to the color of your page */
+}
 li a{
-    cursor: pointer;
-  }
-  .navbar {
-    padding: 0.5rem 1rem;
-    background-color: #343a40; /* Dark grey color */
-  }
-  
-  .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff; /* White color */
-  }
-  
-  .navbar-toggler {
-    border: none;
-    color: #fff; /* White color */
-  }
-  
-  .navbar-nav {
-    margin-top: 0.5rem;
-  }
-  
-  .nav-item {
-    margin-right: 1rem;
-  }
-  
-  .nav-link {
-    color: #fff; /* White color */
-    font-size: 1.1rem;
-  }
-  
-  .nav-link:hover {
-    color: #ccc; /* Light grey color */
-  }
-  
-  .navbar-right {
-    margin-left: auto;
-  }
+  cursor: pointer;
+}

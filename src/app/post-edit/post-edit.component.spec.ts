@@ -6,10 +6,14 @@ describe('PostEditComponent', () => {
   let component: PostEditComponent;
   let fixture: ComponentFixture<PostEditComponent>;
 
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ PostEditComponent ]
+    })
+    .compileComponents();
+  });
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [PostEditComponent]
-    });
     fixture = TestBed.createComponent(PostEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

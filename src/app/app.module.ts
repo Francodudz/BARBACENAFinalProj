@@ -10,6 +10,13 @@ import { PostEditComponent } from './post-edit/post-edit.component';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from './auth/auth.service';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from './environments/environment';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+
+
 
 const routes: Routes = [
   { path: '', redirectTo: 'post-list', pathMatch: 'full' },
@@ -17,7 +24,10 @@ const routes: Routes = [
   { path: 'post-add', component: PostEditComponent },
   { path: 'authentication', component: AuthComponent },
   { path: 'post-edit/:index', component: PostEditComponent },
+  { path: 'login', component: LoginComponent }, // Add this line
+  { path: 'register', component: RegisterComponent }, // Add this line
 ]
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,16 +35,31 @@ const routes: Routes = [
     HeaderComponent,
     PostComponent,
     PostListComponent,
-    PostEditComponent
+    PostEditComponent,
+    LoginComponent,
+    RegisterComponent,
+  
+    
+
   ],
   imports: [
     BrowserModule,
     FormsModule,
     RouterModule.forRoot(routes),
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyB6BVF4a8U13WQ8nrasWBPI9sHLZz72ugQ",
+      authDomain: "gutierrez-firebase.firebaseapp.com",
+      databaseURL: "https://gutierrez-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "gutierrez-firebase",
+      storageBucket: "gutierrez-firebase.appspot.com",
+      messagingSenderId: "485807502694",
+      appId: "1:485807502694:web:e5bdce9d310c11127c84a7"
+    }),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
