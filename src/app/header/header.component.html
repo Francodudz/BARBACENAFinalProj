@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf="showNavbar">
   <a class="navbar-brand" routerLink="/post-list">CRUD</a>
   <button
     class="navbar-toggler"
@@ -21,7 +21,7 @@
         <a class="nav-link" routerLink="/post-add">Create Post</a>
       </li>
     </ul>
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right ml-auto">
       <li class="nav-item">
         <a class="nav-link" routerLink="/register">Register</a>
       </li>

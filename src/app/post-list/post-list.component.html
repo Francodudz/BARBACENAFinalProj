@@ -1,5 +1,8 @@
-<app-post
-  *ngFor="let post of listOfPosts; let i = index"
-  [post]="post"
-  [index]="i"
-></app-post>
+<div class="container-fluid">
+  <app-post
+    class="post-box"
+    *ngFor="let post of listOfPosts; let i = index"
+    [post]="post"
+    [index]="i"
+  ></app-post>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router'; // Add this import at the top
 @Component({
   selector: 'app-login',
@@ -9,6 +9,7 @@ import { Router } from '@angular/router'; // Add this import at the top
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  
 
   constructor(private authService: AuthService, private router: Router) { } 
 

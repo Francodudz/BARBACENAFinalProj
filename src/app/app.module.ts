@@ -10,11 +10,12 @@ import { PostEditComponent } from './post-edit/post-edit.component';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '../auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from './environments/environment';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { AppRoutingModule } from './app-routing.module';
 
 
 
@@ -49,15 +50,16 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp({
-      apiKey: "AIzaSyB6BVF4a8U13WQ8nrasWBPI9sHLZz72ugQ",
-      authDomain: "gutierrez-firebase.firebaseapp.com",
-      databaseURL: "https://gutierrez-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "gutierrez-firebase",
-      storageBucket: "gutierrez-firebase.appspot.com",
-      messagingSenderId: "485807502694",
-      appId: "1:485807502694:web:e5bdce9d310c11127c84a7"
+      apiKey: "AIzaSyAo3sr0hQ1hSzVdS17ImvabniaMcSBazmE",
+        authDomain: "myfirebase-59e34.firebaseapp.com",
+        databaseURL: "https://myfirebase-59e34-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "myfirebase-59e34",
+        storageBucket: "myfirebase-59e34.appspot.com",
+        messagingSenderId: "113761456011",
+        appId: "1:113761456011:web:f71275dbb70bc9616ea98e",
     }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AppRoutingModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

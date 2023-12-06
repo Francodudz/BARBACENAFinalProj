@@ -1,10 +1,11 @@
-<h3>{{ post?.title }}</h3>
-<img class="img-responsive" src="{{ post?.imgPath }}" />
-<p>
-  {{ post?.description }}
-</p>
-<p>Author: {{ post?.author }}</p>
-<p>Date: {{ post?.dateCreated }}</p>
+<div class="post-box">
+  <h3>{{ post?.title }}</h3>
+  <img class="img-responsive" src="{{ post?.imgPath }}" />
+  <p>
+    {{ post?.description }}
+  </p>
+  <p>Author: {{ post?.author }}</p>
+  <p>Date: {{ post?.dateCreated }}</p>
 <button class="btn btn-primary" (click)="onLike()">
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -45,11 +46,13 @@
 <br />
 
 <form>
-  <div *ngFor="let comment of comments; let i = index">
+  <div class="comment-container" *ngFor="let comment of comments; let i = index">
     <ng-container *ngIf="i !== editingCommentIndex; else editingComment">
       {{ comment }}
-      <button class="btn btn-primary btn-sm custom-small-btn" (click)="startEditingComment(i)">Edit</button>
-      <button class="btn btn-danger btn-sm custom-small-btn" (click)="deleteComment(i)">Delete</button>
+      <div class="button-container">
+        <button class="btn btn-primary btn-sm custom-small-btn" (click)="startEditingComment(i)">Edit</button>
+        <button class="btn btn-danger btn-sm custom-small-btn" (click)="deleteComment(i)">Delete</button>
+      </div>
     </ng-container>
     <ng-template #editingComment>
       <form (ngSubmit)="saveEditedComment(i, newCommentInput.value)">

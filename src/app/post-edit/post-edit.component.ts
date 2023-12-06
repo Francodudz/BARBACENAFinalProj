@@ -42,7 +42,7 @@ export class PostEditComponent implements OnInit {
     const imgPath = this.form.value.imgPath;
     const description = this.form.value.description;
       const post: Post = new Post(
-        title, imgPath, description, 'JC JC JC', new Date(), 0, 0
+        title, imgPath, description, 'Franco', new Date(), 0, 0
       );
     if (this.editMode == true) {
       this.postService.updatePost(this.index, post);
