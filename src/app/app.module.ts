@@ -10,12 +10,10 @@ import { PostEditComponent } from './post-edit/post-edit.component';
 import { Routes } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from '../auth.service';
+import { AuthService } from './auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from './environments/environment';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { AppRoutingModule } from './app-routing.module';
+
 
 
 
@@ -25,8 +23,7 @@ const routes: Routes = [
   { path: 'post-add', component: PostEditComponent },
   { path: 'authentication', component: AuthComponent },
   { path: 'post-edit/:index', component: PostEditComponent },
-  { path: 'login', component: LoginComponent }, // Add this line
-  { path: 'register', component: RegisterComponent }, // Add this line
+
 ]
 
 @NgModule({
@@ -37,8 +34,8 @@ const routes: Routes = [
     PostComponent,
     PostListComponent,
     PostEditComponent,
-    LoginComponent,
-    RegisterComponent,
+  
+ 
   
     
 
@@ -59,7 +56,7 @@ const routes: Routes = [
         appId: "1:113761456011:web:f71275dbb70bc9616ea98e",
     }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AppRoutingModule,
+    
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

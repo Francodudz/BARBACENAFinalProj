@@ -17,14 +17,14 @@ export class PostListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.backEndService.fetchData().subscribe((posts: Post[]) => {
-      this.listOfPosts = posts;
-      this.postService.setPosts(posts);
-    });
-  
     // Subscribe to the listChangedEvent
     this.postService.listChangedEvent.subscribe((posts: Post[]) => {
       this.listOfPosts = posts;
+    });
+  
+    this.backEndService.fetchData().subscribe((posts: Post[]) => {
+      this.listOfPosts = posts;
+      this.postService.setPosts(posts);
     });
   }
 }
