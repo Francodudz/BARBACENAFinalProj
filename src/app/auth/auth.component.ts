@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router'; // Add this import at the top
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -10,50 +10,56 @@ import { Router } from '@angular/router'; // Add this import at the top
 })
 export class AuthComponent implements OnInit {
   loginForm!: FormGroup;
-  registerEmail: string | undefined;
-  registerPassword: string | undefined;
-  
+  registerForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) { } 
-
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email]),
-      'password': new FormControl(null, Validators.required)
+    this.loginForm = this.formBuilder.group({
+      'email': ['', [Validators.required, Validators.email]],
+      'password': ['', Validators.required]
+    });
+
+    this.registerForm = this.formBuilder.group({
+      'email': ['', [Validators.required, Validators.email]],
+      'password': ['', Validators.required]
+    });
+
+    this.authService.getAuthState().subscribe((user: any) => {
+      if (user) {
+        this.router.navigate(['/add-account']);
+      }
     });
   }
+
   onLogin() {
     if (!this.loginForm.valid) {
         return;
     }
-    const emailControl = this.loginForm.get('email');
-    const passwordControl = this.loginForm.get('password');
-    if (emailControl && passwordControl) {
-        const email = emailControl.value;
-        const password = passwordControl.value;
-        this.authService.login(email, password).then(() => {
-            window.alert('Login successful'); // Add this line to show a popup message
-            this.router.navigate(['/post-list']); // Add this line to navigate to the welcome page
-        }).catch(error => {
-            // Handle the error
-        });
-    }
-};
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+    this.authService.login(email, password).then(() => {
+        window.alert('Login successful');
+        this.router.navigate(['/post-list']);
+    }).catch(error => {
+      window.alert('login failed');
+    });
+  }
 
-register() {
-  if (this.registerEmail && this.registerPassword) {
-    this.authService.register(this.registerEmail, this.registerPassword)
+  register() {
+    if (!this.registerForm.valid) {
+      return;
+    }
+    const email = this.registerForm.get('email')?.value;
+    const password = this.registerForm.get('password')?.value;
+    this.authService.register(email, password)
       .then((result: any) => {
         console.log('User registered');
-        console.log(result); // This will log the result of the registration
-        window.alert('Registered successfully'); // This will display the alert
-        this.registerEmail = '';
-        this.registerPassword = '';
-        this.router.navigate(['/login']); // navigate to add account page
+        console.log(result);
+        window.alert('Registered successfully');
+        this.router.navigate(['/login']);
       }).catch((error: any) => {
         console.error(error);
       });
   }
-}
 }

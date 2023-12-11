@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from './environments/environment';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserService } from './user.service';
 
 
 
@@ -34,6 +36,7 @@ const routes: Routes = [
     PostComponent,
     PostListComponent,
     PostEditComponent,
+    UserProfileComponent,
   
  
   
@@ -58,7 +61,7 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebaseConfig),
     
   ],
-  providers: [AuthService],
+  providers: [AuthService,UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
