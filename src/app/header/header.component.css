@@ -4,3 +4,7 @@
 li a{
   cursor: pointer;
 }
+.user-button {
+  position: absolute;
+  right: 0;
+}

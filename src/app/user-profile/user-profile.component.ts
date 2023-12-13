@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserService } from '../user.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,10 +23,10 @@ export class UserProfileComponent implements OnInit {
   updateProfile() {
     if (this.profileForm.valid) {
       this.userService.updateProfile(this.profileForm.value).subscribe(
-        response => {
+        (response: any) => {
           // handle successful response
         },
-        error => {
+        (error: HttpErrorResponse) => {
           // handle error response
         }
       );
